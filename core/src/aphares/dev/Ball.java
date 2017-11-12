@@ -3,81 +3,122 @@ package aphares.dev;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector3;
 
 public class Ball {
-    private Rectangle ball;
-    private Pixmap pixmap;
     private Texture Colour;
+    private Circle ball;
+    private float intX,intY;
+    private int ballSpeed;
+
 
     public Ball() {
-        ball = new Rectangle();
-        makeBall();
+        ball = new Circle(8,8,8);
+        Colour = new Texture(Gdx.files.internal("Circle.png"));
+        intX = 32;
+        ball.x = intX;
+        intY = 144;
+        ball.y = intY;
+        ballSpeed = 1;
     }
 
-    public void makeBall() {
-
-        ball.x = 3*8;
-        ball.y = 3*8;
-        ball.width = 6;
-        ball.height = 6;
-
-        pixmap= new Pixmap( 6, 6, Pixmap.Format.RGBA8888 );
-        pixmap.setColor(0, 0, 1, 1f);
-        pixmap.fillCircle(3,3,3);
-        Colour = new Texture(pixmap);
-        pixmap.dispose();
-
-    }
-    public void ballMovement(Vector3 touchPos, OrthographicCamera camera, int level){
+    public int[] ballMovement(Vector3 touchPos, OrthographicCamera camera, boolean[] isTouching, int[] ballCord) {
         if (Gdx.input.isTouched()) {
             touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-            if (touchPos.x > ball.x) {
-                ball.x += 20 * Gdx.graphics.getDeltaTime();
-            }
-            if (touchPos.x < ball.x) {
-                ball.x -= 20 * Gdx.graphics.getDeltaTime();
-            }
-            if (touchPos.y > ball.y) {
-                ball.y += 20 * Gdx.graphics.getDeltaTime();
-            }
-            if (touchPos.y < ball.y) {
-                ball.y -= 20 * Gdx.graphics.getDeltaTime();
-            }
+            camera.unproject(touchPos);
 
+                if (touchPos.x > ball.x && isTouching[0] && (ballCord[2] == 1)) {
+                    ball.x += ballSpeed;
+                    ballCord[0]++;
+                    ballCord[2] = 1;
+                }
+                else if (touchPos.x < ball.x && isTouching[2]  && (ballCord[2] == 1)) {
+                    ball.x -= ballSpeed;
+                    ballCord[0]--;
+                    ballCord[2] = 1;
+                }
+                else if (touchPos.y > ball.y && isTouching[1]  && (ballCord[2] == 2)) {
+                    ball.y += ballSpeed;
+                    ballCord[1]++;
+                    ballCord[2] = 2;
+                }
+                else if (touchPos.y < ball.y && isTouching[3]  && (ballCord[2] == 2)) {
+                    ball.y -= ballSpeed;
+                    ballCord[1]--;
+                    ballCord[2] = 2;
+            }
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT))
-            ball.x -= 200 * Gdx.graphics.getDeltaTime();
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))
-            ball.x += 200 * Gdx.graphics.getDeltaTime();
-        if (Gdx.input.isKeyPressed(Input.Keys.DOWN))
-            ball.y -= 200 * Gdx.graphics.getDeltaTime();
-        if (Gdx.input.isKeyPressed(Input.Keys.UP))
-            ball.y += 200 * Gdx.graphics.getDeltaTime();
+        else {
+            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && isTouching[0] && (ballCord[2] == 1)) {
+                ball.x += ballSpeed;
+                ballCord[0]++;
+                ballCord[2] = 1;
+            }
+            else if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && isTouching[2] && (ballCord[2] == 1)) {
+                ball.x -= ballSpeed;
+                ballCord[0]--;
+                ballCord[2] = 1;
+            }
+            else if (Gdx.input.isKeyPressed(Input.Keys.UP) && isTouching[1] && (ballCord[2] == 2)) {
+                ball.y += ballSpeed;
+                ballCord[1]++;
+                ballCord[2] = 2;
+            }
+            else if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && isTouching[3] && (ballCord[2] == 2)) {
+                ball.y -= ballSpeed;
+                ballCord[1]--;
+                ballCord[2] = 2;
+            }
+            else {
+                if (ballCord[2] == 1) {
+                    ballCord[2] = 2;
+                }
+                else {
+                    ballCord[2] = 1;
+                }
+            }
+        }
 
-        // Makes sure ball doesn't leave screen.
-        Vector3 cam = camera.position;
 
 
-        if (ball.x < (cam.x-200  - (level * 28)))
-            ball.x = (cam.x-200  - (level * 28));
-        if (ball.x > (cam.x+190  + (level * 28)))
-            ball.x = (cam.x+190  + (level * 28));
-        if (ball.y < (cam.y-120  - (level * 16)))
-            ball.y = (cam.y-120  - (level * 16));
-        if (ball.y > (cam.y+110  + (level * 16)))
-            ball.y = (cam.y+110  + (level * 16));
+
+
+        return ballCord;
+
     }
 
     public Texture getColour() {
         return Colour;
     }
 
-    public Rectangle getRect() {
+    public Circle getCircle() {
         return ball;
+    }
+
+    public float getX() {
+        return ball.x;
+    }
+
+    public float getY() {
+        return ball.y;
+    }
+
+    public void setIntX(float x) {
+        intX = x;
+    }
+    public void setIntY(float y) {
+        intY = y;
+    }
+
+
+    public int getBallSpeed() {
+        return ballSpeed;
+    }
+
+    public void setBallSpeed(int newSpeed) {
+        ballSpeed = newSpeed;
     }
 }
 
