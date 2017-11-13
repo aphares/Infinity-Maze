@@ -96,9 +96,8 @@ public class Lines {
                 stack.add(map[block.getY() - 1][block.getX()]);
                 return drawLines(map[block.getY() - 1][block.getX()]);
             }
-            else if (c < 95) {
             //toRight
-            if (openSides[0] && map[block.getY()][block.getX() - 1].getWay()) {
+            else if (openSides[0] && map[block.getY()][block.getX() - 1].getWay()) {
                 map[block.getY()][block.getX() + 1].setColor(true);
                 stack.add(map[block.getY()][block.getX() + 1]);
                 return drawLines(map[block.getY()][block.getX() + 1]);
@@ -108,7 +107,6 @@ public class Lines {
                     map[block.getY()][block.getX() - 1].setColor(true);
                     stack.add(map[block.getY()][block.getX() - 1]);
                     return drawLines(map[block.getY()][block.getX() - 1]);
-                }
             }
         }
         //if any spots are open

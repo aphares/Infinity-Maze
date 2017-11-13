@@ -1,4 +1,4 @@
-package aphares.dev;
+package aphares.dev.Menus;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -8,6 +8,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.Screen;
 
+import aphares.dev.Ball;
+import aphares.dev.Game;
+import aphares.dev.Levels;
 import aphares.dev.theMaze.Maze;
 
 public class GameScreen implements Screen {

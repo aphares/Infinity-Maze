@@ -4,12 +4,12 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 
 public class Levels {
 
-    float degrees = -1.6f;
-    float changeinZoom;
-    OrthographicCamera camera;
-    int level;
-    boolean hasChanged;
-    int c;
+    private float degrees = -1.6f;
+    private float changeinZoom;
+    private OrthographicCamera camera;
+    private int level;
+    private boolean hasChanged;
+    private int c;
 
     public Levels() {
         camera = new OrthographicCamera();
