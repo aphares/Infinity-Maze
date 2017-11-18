@@ -219,6 +219,9 @@ public class Lines {
             }
         }
     }
+    public void setDisplacement(int newDisplacment) {
+        displacement = newDisplacment;
+    }
 
     public int getDisplacement() {
         return displacement;

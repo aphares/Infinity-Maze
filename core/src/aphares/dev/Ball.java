@@ -24,10 +24,11 @@ public class Ball {
         ballSpeed = 2;
     }
 
-    public int[] ballMovement(Vector3 touchPos, OrthographicCamera camera, boolean[] isTouching, int[] ballCord) {
+    public int[] ballMovement(Vector3 touchPos, OrthographicCamera camera, boolean[] isTouching, int[] ballCord, boolean isFirst) {
 
 
         if (Gdx.input.isTouched()) {
+
             touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(touchPos);
 
@@ -51,15 +52,15 @@ public class Ball {
                     ballCord[1]--;
                     ballCord[2] = 2;
             }
-            else {
+                else if (isFirst) {
                     if (ballCord[2] == 1) {
                         ballCord[2] = 2;
-                    }
-                    else {
+                    } else {
                         ballCord[2] = 1;
                     }
                 }
         }
+
         else {
             if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && isTouching[0] && (ballCord[2] == 1)) {
                 ball.x += ballSpeed;
@@ -81,7 +82,7 @@ public class Ball {
                 ballCord[1]--;
                 ballCord[2] = 2;
             }
-            else {
+            else if (isFirst) {
                 if (ballCord[2] == 1) {
                     ballCord[2] = 2;
                 }
@@ -138,6 +139,10 @@ public class Ball {
     public float getY() {
         return ball.y;
     }
+
+    public void setX(float newX){ball.x = newX;}
+
+    public void setY(float newY){ball.x = newY;}
 
     public void setIntX(float x) {
         intX = x;

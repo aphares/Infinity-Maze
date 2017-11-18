@@ -50,7 +50,7 @@ public class MainMenu implements Screen {
 
         game.batch.begin();
         game.font.setColor(0,0,0,1);
-        game.font.draw(game.batch, "I N F I N I T Y    M A Z E", Gdx.graphics.getWidth()/2 -200,Gdx.graphics.getHeight()/2+150);
+        game.font.draw(game.batch, "I N F I N I T Y    M A Z E", 200, 400);
         game.font.draw(game.batch, "Tap anywhere to begin!", 220, 150);
         game.batch.end();
 
